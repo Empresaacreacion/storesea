@@ -5,6 +5,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>STORESEA</title>
   <style>
+.categorias-contenedor {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    padding: 60px 8%;
+    background: #f5f5f5;
+}
+
+.tarjeta-categoria {
+    min-height: 420px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+}
+
+.tarjeta-categoria::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+}
+
+.tarjeta-contenido {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+.tarjeta-contenido h2 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.tarjeta-contenido p {
+    font-size: 17px;
+    margin-bottom: 20px;
+}
+
+.tarjeta-contenido a {
+    display: inline-block;
+    padding: 12px 24px;
+    background: white;
+    color: black;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.tarjeta-contenido a:hover {
+    background: #e5e5e5;
+}
+
+@media (max-width: 900px) {
+    .categorias-contenedor {
+        grid-template-columns: 1fr;
+    }
+}
+    
     * {
       margin: 0;
       padding: 0;
@@ -203,19 +269,41 @@
 
 </section>
 
-<section id="mujer" class="categoria">
-    <h2>Ropa de Mujer</h2>
-    <p>Descubre nuestra colección de ropa para mujer.</p>
-</section>
+<section class="categorias-contenedor">
 
-<section id="hombre" class="categoria">
-    <h2>Ropa de Hombre</h2>
-    <p>Encuentra prendas y estilos para hombre.</p>
-</section>
+    <div id="mujer" class="tarjeta-categoria"
+         style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=80');">
 
-<section id="accesorios" class="categoria">
-    <h2>Accesorios</h2>
-    <p>Complementa tu estilo con nuestros accesorios.</p>
+        <div class="tarjeta-contenido">
+            <h2>Mujer</h2>
+            <p>Moda, estilo y tendencias para cada ocasión.</p>
+            <a href="#">Ver colección</a>
+        </div>
+
+    </div>
+
+    <div id="hombre" class="tarjeta-categoria"
+         style="background-image: url('https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=1000&q=80');">
+
+        <div class="tarjeta-contenido">
+            <h2>Hombre</h2>
+            <p>Prendas modernas para un estilo auténtico.</p>
+            <a href="#">Ver colección</a>
+        </div>
+
+    </div>
+
+    <div id="accesorios" class="tarjeta-categoria"
+         style="background-image: url('https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?auto=format&fit=crop&w=1000&q=80');">
+
+        <div class="tarjeta-contenido">
+            <h2>Accesorios</h2>
+            <p>Complementos que hacen la diferencia.</p>
+            <a href="#">Ver colección</a>
+        </div>
+
+    </div>
+
 </section>
 
 <section class="seccion" id="productos">
