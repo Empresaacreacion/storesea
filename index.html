@@ -346,8 +346,8 @@
           $349 MXN
         </div>
 
-        <a class="comprar" href="#">
-          Comprar
+<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+        
         </a>
       </div>
     </div>
@@ -644,5 +644,18 @@
 
 </footer>
 
+<script>
+  let cantidadCarrito = 0;
+
+  function agregarAlCarrito(event) {
+    event.preventDefault();
+
+    cantidadCarrito++;
+
+    document.getElementById("contador-carrito").textContent = cantidadCarrito;
+    document.getElementById("cantidad-carrito").textContent = cantidadCarrito;
+  }
+</script>
+  
 </body>
 </html>
