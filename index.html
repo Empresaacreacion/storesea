@@ -410,7 +410,7 @@
           $349 MXN
         </div>
         
-<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Blusa Casual', 349)">Comprar</a>
+<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
         
       </div>
     </div>
@@ -429,7 +429,7 @@
           $599 MXN
         </div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Vestido Casual', 599)">Comprar</a>      
+<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
       </div>
     </div>
 
@@ -448,7 +448,7 @@
           $499 MXN
         </div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Pantalón para Mujer', 499)">Comprar</a>      
+<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
       </div>
     </div>
 
@@ -472,7 +472,7 @@
 
         <div class="precio">$299 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Playera Casual', 299)">Comprar</a>      
+<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
       </div>
     </div>
 
@@ -489,7 +489,7 @@
 
         <div class="precio">$449 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Camisa Casual', 449)">Comprar</a>      
+<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
       </div>
     </div>
 
@@ -506,7 +506,7 @@
 
         <div class="precio">$549 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Pantalón para Hombre', 549)">Comprar</a>      
+<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
       </div>
     </div>
     
@@ -530,7 +530,7 @@
 
         <div class="precio">$399 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Reloj Casual', 399)">Comprar</a>
+<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
       </div>
     </div>
 
@@ -547,7 +547,7 @@
 
         <div class="precio">$549 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Bolso Casual', 549)">Comprar</a>
+<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
       </div>
     </div>
 
@@ -564,8 +564,7 @@
 
         <div class="precio">$299 MXN</div>
 
-        <a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Lentes de Sol', 299)">Comprar</a>
-      </div>
+        <a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
     </div>
 
   </div>
@@ -596,7 +595,7 @@
           $299 MXN
         </div>
 
-        <a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Playera Casual', 299)">Comprar</a>
+        <a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
       </div>
     </div>
 
@@ -620,7 +619,8 @@
           $499 MXN
         </div>
 
-      <a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Pantalón Casual', 499)">Comprar</a>
+        <a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+
       </div>
     </div>
 
@@ -643,8 +643,8 @@
         <div class="precio">
           $799 MXN
         </div>
-
-      <a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Chamarra', 799)">Comprar</a>
+      
+        <a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
       </div>
     </div>
 
@@ -715,9 +715,15 @@
       .textContent
       .replace("$", "")
       .replace("MXN", "")
+      .replace(",", "")
       .trim();
 
     const precio = Number(precioTexto);
+
+    if (!nombre || isNaN(precio)) {
+      alert("No se pudo leer correctamente el producto.");
+      return;
+    }
 
     const existente = carrito.find(item => item.nombre === nombre);
 
@@ -734,32 +740,23 @@
     actualizarCarrito();
   }
 
-  function aumentarProducto(nombre) {
-    const producto = carrito.find(item => item.nombre === nombre);
+  function aumentarProducto(indice) {
+    carrito[indice].cantidad++;
+    actualizarCarrito();
+  }
 
-    if (producto) {
-      producto.cantidad++;
+  function disminuirProducto(indice) {
+    carrito[indice].cantidad--;
+
+    if (carrito[indice].cantidad <= 0) {
+      carrito.splice(indice, 1);
     }
 
     actualizarCarrito();
   }
 
-  function disminuirProducto(nombre) {
-    const producto = carrito.find(item => item.nombre === nombre);
-
-    if (!producto) return;
-
-    producto.cantidad--;
-
-    if (producto.cantidad <= 0) {
-      carrito = carrito.filter(item => item.nombre !== nombre);
-    }
-
-    actualizarCarrito();
-  }
-
-  function eliminarProducto(nombre) {
-    carrito = carrito.filter(item => item.nombre !== nombre);
+  function eliminarProducto(indice) {
+    carrito.splice(indice, 1);
     actualizarCarrito();
   }
 
@@ -774,7 +771,8 @@
     let cantidadTotal = 0;
     let total = 0;
 
-    carrito.forEach(item => {
+    carrito.forEach((item, indice) => {
+
       cantidadTotal += item.cantidad;
       total += item.precio * item.cantidad;
 
@@ -788,17 +786,25 @@
         </div>
 
         <div class="item-controles">
-          <button onclick="disminuirProducto('${item.nombre}')">−</button>
 
-          <span>${item.cantidad}</span>
+          <button onclick="disminuirProducto(${indice})">
+            −
+          </button>
 
-          <button onclick="aumentarProducto('${item.nombre}')">+</button>
+          <span class="cantidad-producto">
+            ${item.cantidad}
+          </span>
+
+          <button onclick="aumentarProducto(${indice})">
+            +
+          </button>
 
           <button
             class="eliminar"
-            onclick="eliminarProducto('${item.nombre}')">
+            onclick="eliminarProducto(${indice})">
             Eliminar
           </button>
+
         </div>
       `;
 
