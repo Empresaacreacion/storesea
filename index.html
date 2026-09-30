@@ -614,7 +614,7 @@
 
 </section>
 
- <section class="seccion" id="carrito">
+<section class="seccion" id="carrito">
 
   <h2>Carrito de compras</h2>
 
@@ -625,7 +625,7 @@
 
   <div id="lista-carrito"></div>
 
-  <h3>
+  <h3 style="margin-top: 25px;">
     Total: $<span id="total-carrito">0</span> MXN
   </h3>
 
@@ -640,26 +640,40 @@
 </footer>
 
 <script>
+
   let cantidadCarrito = 0;
   let totalCarrito = 0;
 
   function agregarAlCarrito(event, nombre, precio) {
+
     event.preventDefault();
 
     cantidadCarrito++;
     totalCarrito += precio;
 
-    document.getElementById("contador-carrito").textContent = cantidadCarrito;
-    document.getElementById("cantidad-carrito").textContent = cantidadCarrito;
-    document.getElementById("total-carrito").textContent = totalCarrito;
+    document.getElementById("contador-carrito").textContent =
+      cantidadCarrito;
 
-    const lista = document.getElementById("lista-carrito");
+    document.getElementById("cantidad-carrito").textContent =
+      cantidadCarrito;
 
-    const producto = document.createElement("p");
-    producto.textContent = nombre + " - $" + precio + " MXN";
+    document.getElementById("total-carrito").textContent =
+      totalCarrito;
+
+    const lista =
+      document.getElementById("lista-carrito");
+
+    const producto =
+      document.createElement("p");
+
+    producto.textContent =
+      nombre + " - $" + precio + " MXN";
+
+    producto.style.margin = "10px";
 
     lista.appendChild(producto);
   }
+
 </script>
   
 </body>
