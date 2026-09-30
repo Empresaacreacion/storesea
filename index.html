@@ -700,7 +700,11 @@
 </footer>
 
 <script>
-  let carrito = [];
+  let carrito = JSON.parse(localStorage.getItem("carritoSTORESEA")) || [];
+
+  function guardarCarrito() {
+    localStorage.setItem("carritoSTORESEA", JSON.stringify(carrito));
+  }
 
   function agregarAlCarrito(event) {
     event.preventDefault();
@@ -737,11 +741,13 @@
       });
     }
 
+    guardarCarrito();
     actualizarCarrito();
   }
 
   function aumentarProducto(indice) {
     carrito[indice].cantidad++;
+    guardarCarrito();
     actualizarCarrito();
   }
 
@@ -752,11 +758,14 @@
       carrito.splice(indice, 1);
     }
 
+    guardarCarrito();
     actualizarCarrito();
   }
 
   function eliminarProducto(indice) {
     carrito.splice(indice, 1);
+
+    guardarCarrito();
     actualizarCarrito();
   }
 
@@ -772,7 +781,6 @@
     let total = 0;
 
     carrito.forEach((item, indice) => {
-
       cantidadTotal += item.cantidad;
       total += item.precio * item.cantidad;
 
@@ -786,25 +794,19 @@
         </div>
 
         <div class="item-controles">
-
-          <button onclick="disminuirProducto(${indice})">
-            −
-          </button>
+          <button onclick="disminuirProducto(${indice})">−</button>
 
           <span class="cantidad-producto">
             ${item.cantidad}
           </span>
 
-          <button onclick="aumentarProducto(${indice})">
-            +
-          </button>
+          <button onclick="aumentarProducto(${indice})">+</button>
 
           <button
             class="eliminar"
             onclick="eliminarProducto(${indice})">
             Eliminar
           </button>
-
         </div>
       `;
 
@@ -815,6 +817,8 @@
     cantidad.textContent = cantidadTotal;
     totalElemento.textContent = total;
   }
+
+  actualizarCarrito();
 </script>
   
 </body>
