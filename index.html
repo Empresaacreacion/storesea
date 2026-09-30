@@ -345,12 +345,11 @@
         <div class="precio">
           $349 MXN
         </div>
-
+        
 <a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Blusa Casual', 349)">Comprar</a>
         
       </div>
     </div>
-
 
     <div class="producto">
       <img
@@ -366,8 +365,7 @@
           $599 MXN
         </div>
 
-<a class="comprar" hr<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Blusa Casual', 349)">Comprar</a>ef="#" onclick="agregarAlCarrito(event)">Comprar</a>
-      </div>
+<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Vestido Casual', 599)">Comprar</a>      </div>
     </div>
 
 
@@ -385,8 +383,7 @@
           $499 MXN
         </div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
-      </div>
+<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Pantalón para Mujer', 499)">Comprar</a>      </div>
     </div>
 
   </div>
@@ -409,8 +406,7 @@
 
         <div class="precio">$299 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
-      </div>
+<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Playera Casual', 299)">Comprar</a>      </div>
     </div>
 
 
@@ -426,8 +422,7 @@
 
         <div class="precio">$449 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
-      </div>
+<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Camisa Casual', 449)">Comprar</a>      </div>
     </div>
 
 
@@ -443,8 +438,7 @@
 
         <div class="precio">$549 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
-      </div>
+<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Pantalón para Hombre', 549)">Comprar</a>      </div>
     </div>
     
   </div>
@@ -467,7 +461,7 @@
 
         <div class="precio">$399 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Reloj Casual', 399)">Comprar</a>
       </div>
     </div>
 
@@ -484,7 +478,7 @@
 
         <div class="precio">$549 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+<a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Bolso Casual', 549)">Comprar</a>
       </div>
     </div>
 
@@ -501,7 +495,7 @@
 
         <div class="precio">$299 MXN</div>
 
-        <a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+        <a class="comprar" href="#" onclick="agregarAlCarrito(event, 'Lentes de Sol', 299)">Comprar</a>
       </div>
     </div>
 
@@ -640,40 +634,26 @@
 </footer>
 
 <script>
-
   let cantidadCarrito = 0;
   let totalCarrito = 0;
 
   function agregarAlCarrito(event, nombre, precio) {
-
     event.preventDefault();
 
     cantidadCarrito++;
     totalCarrito += precio;
 
-    document.getElementById("contador-carrito").textContent =
-      cantidadCarrito;
+    document.getElementById("contador-carrito").textContent = cantidadCarrito;
+    document.getElementById("cantidad-carrito").textContent = cantidadCarrito;
+    document.getElementById("total-carrito").textContent = totalCarrito;
 
-    document.getElementById("cantidad-carrito").textContent =
-      cantidadCarrito;
+    const lista = document.getElementById("lista-carrito");
 
-    document.getElementById("total-carrito").textContent =
-      totalCarrito;
-
-    const lista =
-      document.getElementById("lista-carrito");
-
-    const producto =
-      document.createElement("p");
-
-    producto.textContent =
-      nombre + " - $" + precio + " MXN";
-
-    producto.style.margin = "10px";
+    const producto = document.createElement("p");
+    producto.textContent = nombre + " - $" + precio + " MXN";
 
     lista.appendChild(producto);
   }
-
 </script>
   
 </body>
