@@ -752,13 +752,23 @@
 let carrito = [];
 
 try {
-  const carritoGuardado = localStorage.getItem("carritoSTORESEA");
+  const datosGuardados = localStorage.getItem("carritoSTORESEA");
 
-  if (carritoGuardado) {
-    carrito = JSON.parse(carritoGuardado);
+  if (datosGuardados) {
+    const datos = JSON.parse(datosGuardados);
 
-    if (!Array.isArray(carrito)) {
-      carrito = [];
+    if (Array.isArray(datos)) {
+      carrito = datos.filter(item =>
+        item &&
+        typeof item.nombre === "string" &&
+        !isNaN(Number(item.precio))
+      );
+
+      carrito = carrito.map(item => ({
+        nombre: item.nombre,
+        precio: Number(item.precio),
+        cantidad: Number(item.cantidad) > 0 ? Number(item.cantidad) : 1
+      }));
     }
   }
 } catch (error) {
@@ -949,7 +959,6 @@ function finalizarCompraWhatsApp() {
     "?text=" +
     encodeURIComponent(mensaje);
 
-  ```javascript
 window.location.href = url;
 }
 
