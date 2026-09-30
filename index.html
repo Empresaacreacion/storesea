@@ -689,6 +689,13 @@
     Total: $<span id="total-carrito">0</span> MXN
   </h3>
 
+<a
+  href="#"
+  class="boton-whatsapp"
+  onclick="finalizarCompraWhatsApp(event)">
+  Finalizar compra por WhatsApp
+</a>  
+  
 </section>
 
 <footer>
@@ -819,6 +826,60 @@
   }
 
   actualizarCarrito();
+
+.boton-whatsapp {
+  display: inline-block;
+  margin-top: 25px;
+  background: #25D366;
+  color: white;
+  text-decoration: none;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.boton-whatsapp:hover {
+  background: #1ebe5d;
+}
+
+function finalizarCompraWhatsApp(event) {
+  event.preventDefault();
+
+  if (carrito.length === 0) {
+    alert("Tu carrito está vacío.");
+    return;
+  }
+
+  let mensaje = "Hola, quiero realizar el siguiente pedido en STORESEA:%0A%0A";
+
+  let total = 0;
+
+  carrito.forEach(item => {
+    const subtotal = item.precio * item.cantidad;
+    total += subtotal;
+
+    mensaje +=
+      item.nombre +
+      " | Cantidad: " +
+      item.cantidad +
+      " | $" +
+      subtotal +
+      " MXN%0A";
+  });
+
+  mensaje += "%0ATotal: $" + total + " MXN";
+
+  const numeroWhatsApp = "525545848002";
+
+  const url =
+    "https://wa.me/" +
+    numeroWhatsApp +
+    "?text=" +
+    mensaje;
+
+  window.open(url, "_blank");
+}
+  
 </script>
   
 </body>
