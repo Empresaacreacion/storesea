@@ -730,13 +730,13 @@
   <h3 style="margin-top: 25px;">
     Total: $<span id="total-carrito">0</span> MXN
   </h3>
-
-<a
-  href="#"
+  
+<button
   class="boton-whatsapp"
-  onclick="finalizarCompraWhatsApp(event)">
+  type="button"
+  onclick="finalizarCompraWhatsApp()">
   Finalizar compra por WhatsApp
-</a>  
+</button>
   
 </section>
 
@@ -749,164 +749,182 @@
 </footer>
 
 <script>
-  let carrito = JSON.parse(localStorage.getItem("carritoSTORESEA")) || [];
+let carrito = JSON.parse(localStorage.getItem("carritoSTORESEA")) || [];
 
-  function guardarCarrito() {
-    localStorage.setItem("carritoSTORESEA", JSON.stringify(carrito));
+function guardarCarrito() {
+  localStorage.setItem("carritoSTORESEA", JSON.stringify(carrito));
+}
+
+function agregarAlCarrito(event) {
+  const boton = event.currentTarget;
+  const tarjeta = boton.closest(".producto");
+
+  if (!tarjeta) {
+    alert("No se encontró el producto.");
+    return;
   }
 
-  function agregarAlCarrito(event) {
-    const boton = event.currentTarget;
-    const tarjeta = boton.closest(".producto");
+  const nombreElemento = tarjeta.querySelector("h3");
+  const precioElemento = tarjeta.querySelector(".precio");
 
-    const nombre = tarjeta.querySelector("h3").textContent.trim();
-
-    const precioTexto = tarjeta
-      .querySelector(".precio")
-      .textContent
-      .replace("$", "")
-      .replace("MXN", "")
-      .replace(",", "")
-      .trim();
-
-    const precio = Number(precioTexto);
-
-    if (!nombre || isNaN(precio)) {
-      alert("No se pudo leer correctamente el producto.");
-      return;
-    }
-
-    const existente = carrito.find(item => item.nombre === nombre);
-
-    if (existente) {
-      existente.cantidad++;
-    } else {
-      carrito.push({
-        nombre: nombre,
-        precio: precio,
-        cantidad: 1
-      });
-    }
-
-    guardarCarrito();
-    actualizarCarrito();
+  if (!nombreElemento || !precioElemento) {
+    alert("Falta el nombre o precio del producto.");
+    return;
   }
 
-  function aumentarProducto(indice) {
-    carrito[indice].cantidad++;
-    guardarCarrito();
-    actualizarCarrito();
+  const nombre = nombreElemento.textContent.trim();
+
+  const precioTexto = precioElemento.textContent
+    .replace("$", "")
+    .replace("MXN", "")
+    .replace(",", "")
+    .trim();
+
+  const precio = Number(precioTexto);
+
+  if (Number.isNaN(precio)) {
+    alert("El precio del producto no es válido.");
+    return;
   }
 
-  function disminuirProducto(indice) {
-    carrito[indice].cantidad--;
+  const existente = carrito.find(item => item.nombre === nombre);
 
-    if (carrito[indice].cantidad <= 0) {
-      carrito.splice(indice, 1);
-    }
-
-    guardarCarrito();
-    actualizarCarrito();
-  }
-
-  function eliminarProducto(indice) {
-    carrito.splice(indice, 1);
-
-    guardarCarrito();
-    actualizarCarrito();
-  }
-
-  function actualizarCarrito() {
-    const lista = document.getElementById("lista-carrito");
-    const contador = document.getElementById("contador-carrito");
-    const cantidad = document.getElementById("cantidad-carrito");
-    const totalElemento = document.getElementById("total-carrito");
-
-    lista.innerHTML = "";
-
-    let cantidadTotal = 0;
-    let total = 0;
-
-    carrito.forEach((item, indice) => {
-      cantidadTotal += item.cantidad;
-      total += item.precio * item.cantidad;
-
-      const producto = document.createElement("div");
-      producto.className = "item-carrito";
-
-      producto.innerHTML = `
-        <div class="item-info">
-          <strong>${item.nombre}</strong>
-          <span>$${item.precio} MXN</span>
-        </div>
-
-        <div class="item-controles">
-          <button onclick="disminuirProducto(${indice})">−</button>
-
-          <span class="cantidad-producto">
-            ${item.cantidad}
-          </span>
-
-          <button onclick="aumentarProducto(${indice})">+</button>
-
-          <button
-            class="eliminar"
-            onclick="eliminarProducto(${indice})">
-            Eliminar
-          </button>
-        </div>
-      `;
-
-      lista.appendChild(producto);
+  if (existente) {
+    existente.cantidad++;
+  } else {
+    carrito.push({
+      nombre: nombre,
+      precio: precio,
+      cantidad: 1
     });
-
-    contador.textContent = cantidadTotal;
-    cantidad.textContent = cantidadTotal;
-    totalElemento.textContent = total;
   }
 
+  guardarCarrito();
   actualizarCarrito();
-
-.boton-whatsapp {
-  display: inline-block;
-  margin-top: 25px;
-  background: #25D366;
-  color: white;
-  text-decoration: none;
-  padding: 14px 24px;
-  border-radius: 8px;
-  font-weight: bold;
 }
 
-.boton-whatsapp:hover {
-  background: #1ebe5d;
+function aumentarProducto(indice) {
+  if (!carrito[indice]) return;
+
+  carrito[indice].cantidad++;
+
+  guardarCarrito();
+  actualizarCarrito();
 }
 
-function finalizarCompraWhatsApp(event) {
-  event.preventDefault();
+function disminuirProducto(indice) {
+  if (!carrito[indice]) return;
+
+  carrito[indice].cantidad--;
+
+  if (carrito[indice].cantidad <= 0) {
+    carrito.splice(indice, 1);
+  }
+
+  guardarCarrito();
+  actualizarCarrito();
+}
+
+function eliminarProducto(indice) {
+  carrito.splice(indice, 1);
+
+  guardarCarrito();
+  actualizarCarrito();
+}
+
+function actualizarCarrito() {
+  const lista = document.getElementById("lista-carrito");
+  const contador = document.getElementById("contador-carrito");
+  const cantidad = document.getElementById("cantidad-carrito");
+  const totalElemento = document.getElementById("total-carrito");
+
+  if (!lista || !contador || !cantidad || !totalElemento) {
+    return;
+  }
+
+  lista.innerHTML = "";
+
+  let cantidadTotal = 0;
+  let total = 0;
+
+  carrito.forEach((item, indice) => {
+    cantidadTotal += item.cantidad;
+    total += item.precio * item.cantidad;
+
+    const producto = document.createElement("div");
+
+    producto.className = "item-carrito";
+
+    producto.innerHTML = `
+      <div class="item-info">
+        <strong>${item.nombre}</strong>
+        <span>$${item.precio} MXN</span>
+      </div>
+
+      <div class="item-controles">
+
+        <button
+          type="button"
+          onclick="disminuirProducto(${indice})">
+          −
+        </button>
+
+        <span class="cantidad-producto">
+          ${item.cantidad}
+        </span>
+
+        <button
+          type="button"
+          onclick="aumentarProducto(${indice})">
+          +
+        </button>
+
+        <button
+          type="button"
+          class="eliminar"
+          onclick="eliminarProducto(${indice})">
+          Eliminar
+        </button>
+
+      </div>
+    `;
+
+    lista.appendChild(producto);
+  });
+
+  contador.textContent = cantidadTotal;
+  cantidad.textContent = cantidadTotal;
+  totalElemento.textContent = total;
+}
+
+function finalizarCompraWhatsApp() {
 
   if (carrito.length === 0) {
     alert("Tu carrito está vacío.");
     return;
   }
 
-  let mensaje = "Hola, quiero realizar el siguiente pedido en STORESEA:\n\n";
+  let mensaje =
+    "Hola, quiero realizar el siguiente pedido en STORESEA:\n\n";
+
   let total = 0;
 
   carrito.forEach(item => {
+
     const subtotal = item.precio * item.cantidad;
+
     total += subtotal;
 
     mensaje +=
       item.nombre +
       " | Cantidad: " +
       item.cantidad +
-      " | $" +
+      " | Subtotal: $" +
       subtotal +
       " MXN\n";
   });
 
-  mensaje += "\nTotal: $" + total + " MXN";
+  mensaje += "\nTOTAL: $" + total + " MXN";
 
   const numeroWhatsApp = "525545848002";
 
@@ -918,7 +936,8 @@ function finalizarCompraWhatsApp(event) {
 
   window.open(url, "_blank");
 }
-  
+
+document.addEventListener("DOMContentLoaded", actualizarCarrito);
 </script>
   
 </body>
