@@ -315,7 +315,23 @@
     justify-content: center;
     flex-wrap: wrap;
   }
-}      
+
+  .boton-whatsapp {
+  display: inline-block;
+  margin-top: 25px;
+  background: #25D366;
+  color: white;
+  text-decoration: none;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.boton-whatsapp:hover {
+  background: #1ebe5d;
+}
     }
   </style>
 </head>
@@ -850,8 +866,7 @@ function finalizarCompraWhatsApp(event) {
     return;
   }
 
-  let mensaje = "Hola, quiero realizar el siguiente pedido en STORESEA:%0A%0A";
-
+  let mensaje = "Hola, quiero realizar el siguiente pedido en STORESEA:\n\n";
   let total = 0;
 
   carrito.forEach(item => {
@@ -864,18 +879,18 @@ function finalizarCompraWhatsApp(event) {
       item.cantidad +
       " | $" +
       subtotal +
-      " MXN%0A";
+      " MXN\n";
   });
 
-  mensaje += "%0ATotal: $" + total + " MXN";
+  mensaje += "\nTotal: $" + total + " MXN";
 
-  const numeroWhatsApp = "5545848002";
+  const numeroWhatsApp = "525545848002";
 
   const url =
     "https://wa.me/" +
     numeroWhatsApp +
     "?text=" +
-    mensaje;
+    encodeURIComponent(mensaje);
 
   window.open(url, "_blank");
 }
