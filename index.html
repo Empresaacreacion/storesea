@@ -749,7 +749,22 @@
 </footer>
 
 <script>
-let carrito = JSON.parse(localStorage.getItem("carritoSTORESEA")) || [];
+let carrito = [];
+
+try {
+  const carritoGuardado = localStorage.getItem("carritoSTORESEA");
+
+  if (carritoGuardado) {
+    carrito = JSON.parse(carritoGuardado);
+
+    if (!Array.isArray(carrito)) {
+      carrito = [];
+    }
+  }
+} catch (error) {
+  carrito = [];
+  localStorage.removeItem("carritoSTORESEA");
+}
 
 function guardarCarrito() {
   localStorage.setItem("carritoSTORESEA", JSON.stringify(carrito));
@@ -934,7 +949,8 @@ function finalizarCompraWhatsApp() {
     "?text=" +
     encodeURIComponent(mensaje);
 
-  window.open(url, "_blank");
+  ```javascript
+window.location.href = url;
 }
 
 document.addEventListener("DOMContentLoaded", actualizarCarrito);
