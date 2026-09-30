@@ -223,6 +223,8 @@
       text-decoration: none;
       padding: 11px 20px;
       border-radius: 5px;
+      border: none;
+      cursor: pointer;
     }
 
     footer {
@@ -426,7 +428,9 @@
           $349 MXN
         </div>
         
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+<button class="comprar" type="button" onclick="agregarAlCarrito(event)">
+  Comprar
+</button>
         
       </div>
     </div>
@@ -445,7 +449,9 @@
           $599 MXN
         </div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+<button class="comprar" type="button" onclick="agregarAlCarrito(event)">   
+  Comprar 
+</button>
       </div>
     </div>
 
@@ -464,7 +470,9 @@
           $499 MXN
         </div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+<button class="comprar" type="button" onclick="agregarAlCarrito(event)">   
+  Comprar 
+</button>
       </div>
     </div>
 
@@ -488,7 +496,9 @@
 
         <div class="precio">$299 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+<button class="comprar" type="button" onclick="agregarAlCarrito(event)">   
+  Comprar 
+</button>
       </div>
     </div>
 
@@ -505,7 +515,9 @@
 
         <div class="precio">$449 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+<button class="comprar" type="button" onclick="agregarAlCarrito(event)">   
+  Comprar 
+</button>
       </div>
     </div>
 
@@ -522,7 +534,9 @@
 
         <div class="precio">$549 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+<button class="comprar" type="button" onclick="agregarAlCarrito(event)">   
+  Comprar 
+</button>
       </div>
     </div>
     
@@ -546,7 +560,9 @@
 
         <div class="precio">$399 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+<button class="comprar" type="button" onclick="agregarAlCarrito(event)">   
+  Comprar 
+</button>
       </div>
     </div>
 
@@ -563,7 +579,9 @@
 
         <div class="precio">$549 MXN</div>
 
-<a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+<button class="comprar" type="button" onclick="agregarAlCarrito(event)">   
+  Comprar 
+</button>
       </div>
     </div>
 
@@ -580,7 +598,9 @@
 
         <div class="precio">$299 MXN</div>
 
-        <a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+        <button class="comprar" type="button" onclick="agregarAlCarrito(event)">   
+          Comprar 
+        </button>
     </div>
 
   </div>
@@ -611,7 +631,9 @@
           $299 MXN
         </div>
 
-        <a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+        <button class="comprar" type="button" onclick="agregarAlCarrito(event)">   
+          Comprar 
+        </button>
       </div>
     </div>
 
@@ -635,7 +657,9 @@
           $499 MXN
         </div>
 
-        <a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+        <button class="comprar" type="button" onclick="agregarAlCarrito(event)">   
+          Comprar 
+        </button>
 
       </div>
     </div>
@@ -660,7 +684,9 @@
           $799 MXN
         </div>
       
-        <a class="comprar" href="#" onclick="agregarAlCarrito(event)">Comprar</a>
+        <button class="comprar" type="button" onclick="agregarAlCarrito(event)">   
+          Comprar 
+        </button>
       </div>
     </div>
 
@@ -730,8 +756,6 @@
   }
 
   function agregarAlCarrito(event) {
-    event.preventDefault();
-
     const boton = event.currentTarget;
     const tarjeta = boton.closest(".producto");
 
