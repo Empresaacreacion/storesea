@@ -991,7 +991,7 @@
     −
   </button>
 
-  <span class="cantidad-valor">1</span>
+<span class="stock-valor">Selecciona color</span>
 
   <button
     type="button"
@@ -1547,6 +1547,13 @@ const inventario = {
     "XG": { "Negro": 2, "Blanco": 0, "Azul": 2, "Beige": 1 }
   }
 
+  "Reloj Casual": {
+  "Negro": 3,
+  "Blanco": 2,
+  "Azul": 4,
+  "Beige": 1
+},
+
 };
 
 function actualizarStockProducto(elemento) {
@@ -1554,8 +1561,11 @@ function actualizarStockProducto(elemento) {
   const tarjeta = elemento.closest(".producto");
 
   const nombre = tarjeta.querySelector("h3").textContent.trim();
-  const talla = tarjeta.querySelector(".talla-producto").value;
-  const color = tarjeta.querySelector(".color-producto").value;
+  const tallaElemento = tarjeta.querySelector(".talla-producto");
+  const colorElemento = tarjeta.querySelector(".color-producto");
+
+  const talla = tallaElemento ? tallaElemento.value : "";
+  const color = colorElemento ? colorElemento.value : "";
 
   const stockElemento = tarjeta.querySelector(".stock-valor");
   const cantidadElemento = tarjeta.querySelector(".cantidad-valor");
@@ -1563,7 +1573,19 @@ function actualizarStockProducto(elemento) {
   const botonMas = tarjeta.querySelector(".cantidad-mas");
   const botonMenos = tarjeta.querySelector(".cantidad-menos");
 
-  if (!talla || !color) {
+  if (!color) {
+    stockElemento.textContent = tallaElemento
+      ? "Selecciona talla y color"
+      : "Selecciona color";
+
+    botonComprar.disabled = true;
+    botonMas.disabled = true;
+    botonMenos.disabled = true;
+
+    return;
+  }
+
+  if (tallaElemento && !talla) {
     stockElemento.textContent = "Selecciona talla y color";
 
     botonComprar.disabled = true;
@@ -1575,12 +1597,25 @@ function actualizarStockProducto(elemento) {
 
   let stock = 0;
 
-  if (
-    inventario[nombre] &&
-    inventario[nombre][talla] &&
-    inventario[nombre][talla][color] !== undefined
-  ) {
-    stock = inventario[nombre][talla][color];
+  if (tallaElemento) {
+
+    if (
+      inventario[nombre] &&
+      inventario[nombre][talla] &&
+      inventario[nombre][talla][color] !== undefined
+    ) {
+      stock = inventario[nombre][talla][color];
+    }
+
+  } else {
+
+    if (
+      inventario[nombre] &&
+      inventario[nombre][color] !== undefined
+    ) {
+      stock = inventario[nombre][color];
+    }
+
   }
 
   stockElemento.textContent = stock;
@@ -1590,12 +1625,15 @@ function actualizarStockProducto(elemento) {
   }
 
   if (stock <= 0) {
+
     botonComprar.disabled = true;
     botonMas.disabled = true;
     botonMenos.disabled = true;
 
     botonComprar.textContent = "Agotado";
+
   } else {
+
     botonComprar.disabled = false;
     botonMas.disabled = false;
     botonMenos.disabled = false;
