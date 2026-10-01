@@ -431,7 +431,14 @@
 .stock-valor {
   color: #111;
 }
-    
+
+.comprar:disabled,
+.cantidad-selector button:disabled {
+  background: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  opacity: 0.7;
+}    
   </style>
 </head>
 
@@ -1519,9 +1526,17 @@ function actualizarStockProducto(elemento) {
 
   const stockElemento = tarjeta.querySelector(".stock-valor");
   const cantidadElemento = tarjeta.querySelector(".cantidad-valor");
+  const botonComprar = tarjeta.querySelector(".comprar");
+  const botonMas = tarjeta.querySelector(".cantidad-mas");
+  const botonMenos = tarjeta.querySelector(".cantidad-menos");
 
   if (!talla || !color) {
     stockElemento.textContent = "Selecciona talla y color";
+
+    botonComprar.disabled = true;
+    botonMas.disabled = true;
+    botonMenos.disabled = true;
+
     return;
   }
 
@@ -1540,8 +1555,21 @@ function actualizarStockProducto(elemento) {
   if (cantidadElemento) {
     cantidadElemento.textContent = "1";
   }
-}  
-  
+
+  if (stock <= 0) {
+    botonComprar.disabled = true;
+    botonMas.disabled = true;
+    botonMenos.disabled = true;
+
+    botonComprar.textContent = "Agotado";
+  } else {
+    botonComprar.disabled = false;
+    botonMas.disabled = false;
+    botonMenos.disabled = false;
+
+    botonComprar.textContent = "Comprar";
+  }
+}
 function aumentarCantidadProducto(event) {
   const selector = event.currentTarget.closest(".cantidad-selector");
   const tarjeta = event.currentTarget.closest(".producto");
