@@ -727,6 +727,48 @@
 
   <div id="lista-carrito"></div>
 
+  <div class="datos-cliente">
+
+  <h3>Datos para realizar tu pedido</h3>
+
+  <label for="nombre-cliente">Nombre completo</label>
+  <input
+    type="text"
+    id="nombre-cliente"
+    placeholder="Escribe tu nombre completo"
+  >
+
+  <label for="telefono-cliente">Teléfono</label>
+  <input
+    type="tel"
+    id="telefono-cliente"
+    placeholder="Ej. 55 1234 5678"
+  >
+
+  <label for="tipo-entrega">Método de entrega</label>
+  <select id="tipo-entrega" onchange="mostrarDireccion()">
+    <option value="">Selecciona una opción</option>
+    <option value="Envio a domicilio">Envío a domicilio</option>
+    <option value="Recoger">Recoger</option>
+  </select>
+
+  <div id="campo-direccion" style="display: none;">
+    <label for="direccion-cliente">Dirección de entrega</label>
+    <textarea
+      id="direccion-cliente"
+      placeholder="Calle, número, colonia, C.P., municipio y estado"
+    ></textarea>
+  </div>
+
+  <label for="forma-pago">Forma de pago</label>
+  <select id="forma-pago">
+    <option value="">Selecciona una opción</option>
+    <option value="Transferencia">Transferencia</option>
+    <option value="Efectivo">Efectivo</option>
+  </select>
+
+</div>
+
   <h3 style="margin-top: 25px;">
     Total: $<span id="total-carrito">0</span> MXN
   </h3>
