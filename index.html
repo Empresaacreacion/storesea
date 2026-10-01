@@ -1001,6 +1001,11 @@ function agregarAlCarrito(event) {
   const precioElemento = tarjeta.querySelector(".precio");
   const tallaElemento = tarjeta.querySelector(".talla-producto");
 
+if (tallaElemento && !talla) {
+  alert("Selecciona una talla antes de agregar el producto.");
+  return;
+}
+  
   if (!nombreElemento || !precioElemento) {
     alert("Falta el nombre o precio del producto.");
     return;
@@ -1089,10 +1094,6 @@ function actualizarCarrito() {
     cantidadTotal += item.cantidad;
     total += item.precio * item.cantidad;
 
-    if (tallaElemento && !talla) {
-  alert("Selecciona una talla antes de agregar el producto.");
-  return;
-}
     const producto = document.createElement("div");
 
     producto.className = "item-carrito";
