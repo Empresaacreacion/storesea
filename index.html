@@ -954,6 +954,17 @@ function actualizarCarrito() {
   totalElemento.textContent = total;
 }
 
+function mostrarDireccion() {
+  const tipoEntrega = document.getElementById("tipo-entrega").value;
+  const campoDireccion = document.getElementById("campo-direccion");
+
+  if (tipoEntrega === "Envio a domicilio") {
+    campoDireccion.style.display = "block";
+  } else {
+    campoDireccion.style.display = "none";
+  }
+}
+  
 function finalizarCompraWhatsApp() {
 
   if (carrito.length === 0) {
@@ -961,27 +972,84 @@ function finalizarCompraWhatsApp() {
     return;
   }
 
+  const nombreCliente = document.getElementById("nombre-cliente").value.trim();
+  const telefonoCliente = document.getElementById("telefono-cliente").value.trim();
+  const tipoEntrega = document.getElementById("tipo-entrega").value;
+  const direccionCliente = document.getElementById("direccion-cliente").value.trim();
+  const formaPago = document.getElementById("forma-pago").value;
+
+  if (!nombreCliente) {
+    alert("Ingresa tu nombre completo.");
+    return;
+  }
+
+  if (!telefonoCliente) {
+    alert("Ingresa tu teléfono.");
+    return;
+  }
+
+  if (!tipoEntrega) {
+    alert("Selecciona un método de entrega.");
+    return;
+  }
+
+  if (tipoEntrega === "Envio a domicilio" && !direccionCliente) {
+    alert("Ingresa la dirección de entrega.");
+    return;
+  }
+
+  if (!formaPago) {
+    alert("Selecciona una forma de pago.");
+    return;
+  }
+
+  const fecha = new Date();
+
+  const pedido =
+    "ST-" +
+    fecha.getFullYear() +
+    String(fecha.getMonth() + 1).padStart(2, "0") +
+    String(fecha.getDate()).padStart(2, "0") +
+    "-" +
+    String(fecha.getHours()).padStart(2, "0") +
+    String(fecha.getMinutes()).padStart(2, "0");
+
   let mensaje =
-    "Hola, quiero realizar el siguiente pedido en STORESEA:\n\n";
+    "NUEVO PEDIDO - STORESEA\n\n" +
+    "Pedido: " + pedido + "\n" +
+    "Cliente: " + nombreCliente + "\n" +
+    "Teléfono: " + telefonoCliente + "\n" +
+    "Entrega: " + tipoEntrega + "\n";
+
+  if (tipoEntrega === "Envio a domicilio") {
+    mensaje += "Dirección: " + direccionCliente + "\n";
+  }
+
+  mensaje +=
+    "Forma de pago: " + formaPago + "\n\n" +
+    "PRODUCTOS:\n";
 
   let total = 0;
 
   carrito.forEach(item => {
-
     const subtotal = item.precio * item.cantidad;
 
     total += subtotal;
 
     mensaje +=
+      "- " +
       item.nombre +
-      " | Cantidad: " +
+      " x" +
       item.cantidad +
-      " | Subtotal: $" +
+      " = $" +
       subtotal +
       " MXN\n";
   });
 
-  mensaje += "\nTOTAL: $" + total + " MXN";
+  mensaje +=
+    "\nTOTAL: $" +
+    total +
+    " MXN";
 
   const numeroWhatsApp = "525545848002";
 
@@ -991,7 +1059,7 @@ function finalizarCompraWhatsApp() {
     "?text=" +
     encodeURIComponent(mensaje);
 
-window.location.href = url;
+  window.location.href = url;
 }
 
 document.addEventListener("DOMContentLoaded", actualizarCarrito);
