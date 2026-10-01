@@ -505,9 +505,23 @@
 <label>Cantidad</label>
 
 <div class="cantidad-selector">
-  <button type="button" class="cantidad-menos">−</button>
+
+  <button
+    type="button"
+    class="cantidad-menos"
+    onclick="disminuirCantidadProducto(event)">
+    −
+  </button>
+
   <span class="cantidad-valor">1</span>
-  <button type="button" class="cantidad-mas">+</button>
+
+  <button
+    type="button"
+    class="cantidad-mas"
+    onclick="aumentarCantidadProducto(event)">
+    +
+  </button>
+
 </div>
         
 <button class="comprar" type="button" onclick="agregarAlCarrito(event)">
@@ -1205,6 +1219,29 @@ function guardarCarrito() {
   localStorage.setItem("carritoSTORESEA", JSON.stringify(carrito));
 }
 
+function aumentarCantidadProducto(event) {
+  const selector = event.currentTarget.closest(".cantidad-selector");
+  const valor = selector.querySelector(".cantidad-valor");
+
+  let cantidad = Number(valor.textContent);
+  cantidad++;
+
+  valor.textContent = cantidad;
+}
+
+function disminuirCantidadProducto(event) {
+  const selector = event.currentTarget.closest(".cantidad-selector");
+  const valor = selector.querySelector(".cantidad-valor");
+
+  let cantidad = Number(valor.textContent);
+
+  if (cantidad > 1) {
+    cantidad--;
+  }
+
+  valor.textContent = cantidad;
+}  
+  
 function agregarAlCarrito(event) {
   const boton = event.currentTarget;
   const tarjeta = boton.closest(".producto");
@@ -1218,6 +1255,7 @@ const nombreElemento = tarjeta.querySelector("h3");
 const precioElemento = tarjeta.querySelector(".precio");
 const tallaElemento = tarjeta.querySelector(".talla-producto");
 const colorElemento = tarjeta.querySelector(".color-producto");
+const cantidadElemento = tarjeta.querySelector(".cantidad-valor");
   
 if (!nombreElemento || !precioElemento) {
   alert("Falta el nombre o precio del producto.");
@@ -1227,6 +1265,9 @@ if (!nombreElemento || !precioElemento) {
 const nombre = nombreElemento.textContent.trim();
 const talla = tallaElemento ? tallaElemento.value : "";
 const color = colorElemento ? colorElemento.value : "";
+const cantidadSeleccionada = cantidadElemento
+  ? Number(cantidadElemento.textContent)
+  : 1;
 
 if (tallaElemento && !talla) {
   alert("Selecciona una talla antes de agregar el producto.");
@@ -1257,20 +1298,24 @@ const existente = carrito.find(
     item.color === color
 );
 
-  if (existente) {
-    existente.cantidad++;
-  } else {
+if (existente) {
+  existente.cantidad += cantidadSeleccionada;
+}
+  else {
 carrito.push({
   nombre: nombre,
   precio: precio,
   talla: talla,
   color: color,
-  cantidad: 1
+  cantidad: cantidadSeleccionada
 });
   }
 
   guardarCarrito();
   actualizarCarrito();
+  if (cantidadElemento) {
+  cantidadElemento.textContent = "1";
+}
 }
 
 function aumentarProducto(indice) {
