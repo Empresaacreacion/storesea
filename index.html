@@ -526,28 +526,37 @@
         </div>
 
 <p class="stock-producto">
-  Disponibles: <span class="stock-valor">10</span>
-</p>        
+  Disponibles:
+  <span class="stock-valor">Selecciona talla y color</span>
+</p>     
         
 <label for="talla">Talla</label>
 
-<select class="talla-producto">
+<select
+  class="talla-producto"
+  onchange="actualizarStockProducto(this)">
+  
   <option value="">Selecciona talla</option>
   <option value="CH">CH</option>
   <option value="M">M</option>
   <option value="G">G</option>
   <option value="XG">XG</option>
-</select>
 
+</select>
+        
 <label>Color</label>
 
-<select class="color-producto">
+<select
+  class="color-producto"
+  onchange="actualizarStockProducto(this)">
+  
   <option value="">Selecciona color</option>
   <option value="Negro">Negro</option>
   <option value="Blanco">Blanco</option>
   <option value="Azul">Azul</option>
   <option value="Beige">Beige</option>
-</select>        
+
+</select>     
 
 <label>Cantidad</label>
 
@@ -1464,6 +1473,75 @@ function guardarCarrito() {
   localStorage.setItem("carritoSTORESEA", JSON.stringify(carrito));
 }
 
+const inventario = {
+
+  "Blusa Casual": {
+
+    "CH": {
+      "Negro": 3,
+      "Blanco": 2,
+      "Azul": 4,
+      "Beige": 2
+    },
+
+    "M": {
+      "Negro": 5,
+      "Blanco": 4,
+      "Azul": 3,
+      "Beige": 2
+    },
+
+    "G": {
+      "Negro": 2,
+      "Blanco": 2,
+      "Azul": 1,
+      "Beige": 3
+    },
+
+    "XG": {
+      "Negro": 0,
+      "Blanco": 1,
+      "Azul": 2,
+      "Beige": 1
+    }
+
+  }
+
+};
+
+function actualizarStockProducto(elemento) {
+
+  const tarjeta = elemento.closest(".producto");
+
+  const nombre = tarjeta.querySelector("h3").textContent.trim();
+  const talla = tarjeta.querySelector(".talla-producto").value;
+  const color = tarjeta.querySelector(".color-producto").value;
+
+  const stockElemento = tarjeta.querySelector(".stock-valor");
+  const cantidadElemento = tarjeta.querySelector(".cantidad-valor");
+
+  if (!talla || !color) {
+    stockElemento.textContent = "Selecciona talla y color";
+    return;
+  }
+
+  let stock = 0;
+
+  if (
+    inventario[nombre] &&
+    inventario[nombre][talla] &&
+    inventario[nombre][talla][color] !== undefined
+  ) {
+    stock = inventario[nombre][talla][color];
+  }
+
+  stockElemento.textContent = stock;
+
+  if (cantidadElemento) {
+    cantidadElemento.textContent = "1";
+  }
+}  
+  
 function aumentarCantidadProducto(event) {
   const selector = event.currentTarget.closest(".cantidad-selector");
   const tarjeta = event.currentTarget.closest(".producto");
