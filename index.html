@@ -1466,12 +1466,20 @@ function guardarCarrito() {
 
 function aumentarCantidadProducto(event) {
   const selector = event.currentTarget.closest(".cantidad-selector");
+  const tarjeta = event.currentTarget.closest(".producto");
+
   const valor = selector.querySelector(".cantidad-valor");
+  const stockElemento = tarjeta.querySelector(".stock-valor");
 
   let cantidad = Number(valor.textContent);
-  cantidad++;
+  const stock = stockElemento ? Number(stockElemento.textContent) : 999;
 
-  valor.textContent = cantidad;
+  if (cantidad < stock) {
+    cantidad++;
+    valor.textContent = cantidad;
+  } else {
+    alert("Has alcanzado el máximo disponible de este producto.");
+  }
 }
 
 function disminuirCantidadProducto(event) {
@@ -1501,6 +1509,7 @@ const precioElemento = tarjeta.querySelector(".precio");
 const tallaElemento = tarjeta.querySelector(".talla-producto");
 const colorElemento = tarjeta.querySelector(".color-producto");
 const cantidadElemento = tarjeta.querySelector(".cantidad-valor");
+const stockElemento = tarjeta.querySelector(".stock-valor");  
   
 if (!nombreElemento || !precioElemento) {
   alert("Falta el nombre o precio del producto.");
@@ -1513,6 +1522,9 @@ const color = colorElemento ? colorElemento.value : "";
 const cantidadSeleccionada = cantidadElemento
   ? Number(cantidadElemento.textContent)
   : 1;
+const stockDisponible = stockElemento
+  ? Number(stockElemento.textContent)
+  : 999;  
 
 if (tallaElemento && !talla) {
   alert("Selecciona una talla antes de agregar el producto.");
@@ -1544,8 +1556,28 @@ const existente = carrito.find(
 );
 
 if (existente) {
-  existente.cantidad += cantidadSeleccionada;
+
+  const nuevaCantidad =
+    existente.cantidad + cantidadSeleccionada;
+
+  if (nuevaCantidad > stockDisponible) {
+    alert(
+      "No hay suficiente stock disponible. Máximo: " +
+      stockDisponible
+    );
+    return;
+  }
+
+  existente.cantidad = nuevaCantidad;
 }
+
+if (cantidadSeleccionada > stockDisponible) {
+  alert(
+    "No hay suficiente stock disponible. Máximo: " +
+    stockDisponible
+  );
+  return;
+}  
   else {
 carrito.push({
   nombre: nombre,
