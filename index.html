@@ -318,16 +318,62 @@
     flex-wrap: wrap;
   }
 
-  .boton-whatsapp {
+/* FORMULARIO DE PEDIDO */
+
+.datos-cliente {
+  max-width: 650px;
+  margin: 35px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+  text-align: left;
+}
+
+.datos-cliente h3 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+.datos-cliente label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
+
+.datos-cliente input,
+.datos-cliente select,
+.datos-cliente textarea {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cccccc;
+  border-radius: 7px;
+  font-size: 16px;
+  background: white;
+}
+
+.datos-cliente textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+#campo-direccion {
+  width: 100%;
+}
+
+.boton-whatsapp {
   display: inline-block;
   margin-top: 25px;
+  padding: 15px 28px;
+  border: none;
+  border-radius: 8px;
   background: #25D366;
   color: white;
-  text-decoration: none;
-  padding: 14px 24px;
-  border-radius: 8px;
+  font-size: 17px;
   font-weight: bold;
-  font-size: 16px;
   cursor: pointer;
 }
 
@@ -727,7 +773,7 @@
 
   <div id="lista-carrito"></div>
 
-  <div class="datos-cliente">
+ <div class="datos-cliente">
 
   <h3>Datos para realizar tu pedido</h3>
 
@@ -746,21 +792,26 @@
   >
 
   <label for="tipo-entrega">Método de entrega</label>
+
   <select id="tipo-entrega" onchange="mostrarDireccion()">
     <option value="">Selecciona una opción</option>
-    <option value="Envio a domicilio">Envío a domicilio</option>
-    <option value="Recoger">Recoger</option>
+    <option value="Envio a domicilio">Envio a domicilio</option>
+    <option value="Recoger">Recoger en punto de entrega</option>
   </select>
 
   <div id="campo-direccion" style="display: none;">
+
     <label for="direccion-cliente">Dirección de entrega</label>
+
     <textarea
       id="direccion-cliente"
-      placeholder="Calle, número, colonia, C.P., municipio y estado"
+      placeholder="Calle, número, colonia, código postal, municipio y estado"
     ></textarea>
+
   </div>
 
   <label for="forma-pago">Forma de pago</label>
+
   <select id="forma-pago">
     <option value="">Selecciona una opción</option>
     <option value="Transferencia">Transferencia</option>
@@ -768,7 +819,6 @@
   </select>
 
 </div>
-
   <h3 style="margin-top: 25px;">
     Total: $<span id="total-carrito">0</span> MXN
   </h3>
