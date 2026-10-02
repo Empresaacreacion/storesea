@@ -1842,13 +1842,69 @@ function actualizarCarrito() {
 
     producto.className = "item-carrito";
 
-    producto.innerHTML = `
-      <div class="item-info">
-<strong>${item.nombre}</strong>
-<span>Talla: ${item.talla || "N/A"}</span>
-<span>Color: ${item.color || "N/A"}</span>
-<span>$${item.precio} MXN</span>
-      </div>
+const subtotal = item.precio * item.cantidad;
+
+carrito.forEach((item, indice) => {
+
+  cantidadTotal += item.cantidad;
+  total += item.precio * item.cantidad;
+
+  const producto = document.createElement("div");
+
+  producto.className = "item-carrito";
+
+  const subtotal = item.precio * item.cantidad;
+
+  producto.innerHTML = `
+    <div class="item-info">
+      <strong>${item.nombre}</strong>
+      <span>Talla: ${item.talla || "N/A"}</span>
+      <span>Color: ${item.color || "N/A"}</span>
+      <span>Precio unitario: $${item.precio} MXN</span>
+      <span>Cantidad: ${item.cantidad}</span>
+      <span><strong>Subtotal: $${subtotal} MXN</strong></span>
+    </div>
+
+    <div class="item-controles">
+
+      <button
+        type="button"
+        onclick="disminuirProducto(${indice})">
+        −
+      </button>
+
+      <span class="cantidad-producto">
+        ${item.cantidad}
+      </span>
+
+      <button
+        type="button"
+        onclick="aumentarProducto(${indice})">
+        +
+      </button>
+
+      <button
+        type="button"
+        class="eliminar"
+        onclick="eliminarProducto(${indice})">
+        Eliminar
+      </button>
+
+    </div>
+  `;
+
+  lista.appendChild(producto);
+});
+    
+producto.innerHTML = `
+  <div class="item-info">
+    <strong>${item.nombre}</strong>
+    <span>Talla: ${item.talla || "N/A"}</span>
+    <span>Color: ${item.color || "N/A"}</span>
+    <span>Precio unitario: $${item.precio} MXN</span>
+    <span>Cantidad: ${item.cantidad}</span>
+    <span><strong>Subtotal: $${subtotal} MXN</strong></span>
+  </div>
 
       <div class="item-controles">
 
