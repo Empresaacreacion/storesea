@@ -1525,13 +1525,6 @@ const inventario = {
     "XG": { "Negro": 2, "Blanco": 0, "Azul": 2, "Beige": 1 }
   },
 
-  "Reloj Casual": {
-  "Negro": 3,
-  "Blanco": 2,
-  "Azul": 4,
-  "Beige": 1
-},
-
 "Reloj Casual": {
   "Negro": 3,
   "Blanco": 2,
@@ -1745,26 +1738,26 @@ if (existente) {
   }
 
   existente.cantidad = nuevaCantidad;
-}
 
-if (cantidadSeleccionada > stockDisponible) {
-  alert(
-    "No hay suficiente stock disponible. Máximo: " +
-    stockDisponible
-  );
-  return;
-}  
-else {
-carrito.push({
-  nombre: nombre,
-  precio: precio,
-  talla: talla,
-  color: color,
-  stock: stockDisponible,
-  cantidad: cantidadSeleccionada
-});
+} else {
+
+  if (cantidadSeleccionada > stockDisponible) {
+    alert(
+      "No hay suficiente stock disponible. Máximo: " +
+      stockDisponible
+    );
+    return;
   }
 
+  carrito.push({
+    nombre: nombre,
+    precio: precio,
+    talla: talla,
+    color: color,
+    stock: stockDisponible,
+    cantidad: cantidadSeleccionada
+  });
+}
   guardarCarrito();
   actualizarCarrito();
   if (cantidadElemento) {
@@ -1835,76 +1828,43 @@ function actualizarCarrito() {
   let total = 0;
 
   carrito.forEach((item, indice) => {
+
     cantidadTotal += item.cantidad;
-    total += item.precio * item.cantidad;
+
+    const subtotal = item.precio * item.cantidad;
+    total += subtotal;
 
     const producto = document.createElement("div");
-
     producto.className = "item-carrito";
 
-const subtotal = item.precio * item.cantidad;
+    producto.innerHTML = `
+      <div class="item-info">
 
-carrito.forEach((item, indice) => {
+        <strong>${item.nombre}</strong>
 
-  cantidadTotal += item.cantidad;
-  total += item.precio * item.cantidad;
+        ${
+          item.talla
+            ? `<span>Talla: ${item.talla}</span>`
+            : ""
+        }
 
-  const producto = document.createElement("div");
+        <span>Color: ${item.color || "N/A"}</span>
 
-  producto.className = "item-carrito";
+        <span>
+          Precio unitario: $${item.precio} MXN
+        </span>
 
-  const subtotal = item.precio * item.cantidad;
+        <span>
+          Cantidad: ${item.cantidad}
+        </span>
 
-  producto.innerHTML = `
-    <div class="item-info">
-      <strong>${item.nombre}</strong>
-      <span>Talla: ${item.talla || "N/A"}</span>
-      <span>Color: ${item.color || "N/A"}</span>
-      <span>Precio unitario: $${item.precio} MXN</span>
-      <span>Cantidad: ${item.cantidad}</span>
-      <span><strong>Subtotal: $${subtotal} MXN</strong></span>
-    </div>
+        <span>
+          <strong>
+            Subtotal: $${subtotal} MXN
+          </strong>
+        </span>
 
-    <div class="item-controles">
-
-      <button
-        type="button"
-        onclick="disminuirProducto(${indice})">
-        −
-      </button>
-
-      <span class="cantidad-producto">
-        ${item.cantidad}
-      </span>
-
-      <button
-        type="button"
-        onclick="aumentarProducto(${indice})">
-        +
-      </button>
-
-      <button
-        type="button"
-        class="eliminar"
-        onclick="eliminarProducto(${indice})">
-        Eliminar
-      </button>
-
-    </div>
-  `;
-
-  lista.appendChild(producto);
-});
-    
-producto.innerHTML = `
-  <div class="item-info">
-    <strong>${item.nombre}</strong>
-    <span>Talla: ${item.talla || "N/A"}</span>
-    <span>Color: ${item.color || "N/A"}</span>
-    <span>Precio unitario: $${item.precio} MXN</span>
-    <span>Cantidad: ${item.cantidad}</span>
-    <span><strong>Subtotal: $${subtotal} MXN</strong></span>
-  </div>
+      </div>
 
       <div class="item-controles">
 
