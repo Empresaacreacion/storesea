@@ -1634,21 +1634,25 @@ const stockRestante =
     cantidadElemento.textContent = "1";
   }
 
-  if (stockRestante <= 0) {
+ if (stockRestante <= 0) {
 
-    botonComprar.disabled = true;
-    botonMas.disabled = true;
-    botonMenos.disabled = true;
+  botonComprar.disabled = true;
+  botonMas.disabled = true;
+  botonMenos.disabled = true;
 
-    botonComprar.textContent = "Agotado";
+  botonComprar.textContent = "Agotado";
 
-  } else {
+} else {
 
-    botonComprar.disabled = false;
-    botonMas.disabled = false;
-    botonMenos.disabled = false;
+  botonComprar.disabled = false;
+  botonMas.disabled = false;
+  botonMenos.disabled = false;
 
-    botonComprar.textContent = "Comprar";
+  botonComprar.textContent = "Comprar";
+}
+
+} // FIN DE actualizarStockProducto
+
 
 function refrescarStocksVisibles() {
 
@@ -1663,8 +1667,7 @@ function refrescarStocksVisibles() {
 
   });
 }
-  
-}
+function aumentarCantidadProducto(event) {
 function aumentarCantidadProducto(event) {
   const selector = event.currentTarget.closest(".cantidad-selector");
   const tarjeta = event.currentTarget.closest(".producto");
@@ -1758,18 +1761,15 @@ const existente = carrito.find(
 
 if (existente) {
 
-  const nuevaCantidad =
-    existente.cantidad + cantidadSeleccionada;
-
-  if (nuevaCantidad > stockDisponible) {
+  if (cantidadSeleccionada > stockDisponible) {
     alert(
-      "No hay suficiente stock disponible. Máximo: " +
+      "No hay suficiente stock disponible. Quedan: " +
       stockDisponible
     );
     return;
   }
 
-  existente.cantidad = nuevaCantidad;
+  existente.cantidad += cantidadSeleccionada;
 
 } else {
 
@@ -1795,18 +1795,6 @@ if (existente) {
   refrescarStocksVisibles();
   if (cantidadElemento) {
   cantidadElemento.textContent = "1";
-}
-}
-
-function refrescarStocksVisibles() {
-
-  document.querySelectorAll(".producto").forEach(tarjeta => {
-
-    const colorElemento =
-      tarjeta.querySelector(".color-producto");
-
-    if (colorElemento && colorElemento.value) {
-      actualizarStockProducto(colorElemento);
     }
 
   });
