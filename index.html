@@ -1668,7 +1668,6 @@ function refrescarStocksVisibles() {
   });
 }
 function aumentarCantidadProducto(event) {
-function aumentarCantidadProducto(event) {
   const selector = event.currentTarget.closest(".cantidad-selector");
   const tarjeta = event.currentTarget.closest(".producto");
 
@@ -1795,9 +1794,8 @@ if (existente) {
   refrescarStocksVisibles();
   if (cantidadElemento) {
   cantidadElemento.textContent = "1";
-    }
-
-  });
+}
+  
 }
   
 function aumentarProducto(indice) {
