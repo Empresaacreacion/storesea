@@ -1547,6 +1547,18 @@ const inventario = {
 }
 
 };
+
+function obtenerCantidadEnCarrito(nombre, talla, color) {
+
+  const item = carrito.find(
+    producto =>
+      producto.nombre === nombre &&
+      producto.talla === talla &&
+      producto.color === color
+  );
+
+  return item ? item.cantidad : 0;
+}
   
 function actualizarStockProducto(elemento) {
 
@@ -1610,13 +1622,19 @@ function actualizarStockProducto(elemento) {
 
   }
 
-  stockElemento.textContent = stock;
+const cantidadEnCarrito =
+  obtenerCantidadEnCarrito(nombre, talla, color);
+
+const stockRestante =
+  Math.max(stock - cantidadEnCarrito, 0);
+  
+  stockElemento.textContent = stockRestante;
 
   if (cantidadElemento) {
     cantidadElemento.textContent = "1";
   }
 
-  if (stock <= 0) {
+  if (stockRestante <= 0) {
 
     botonComprar.disabled = true;
     botonMas.disabled = true;
@@ -1632,6 +1650,21 @@ function actualizarStockProducto(elemento) {
 
     botonComprar.textContent = "Comprar";
   }
+
+function refrescarStocksVisibles() {
+
+  document.querySelectorAll(".producto").forEach(tarjeta => {
+
+    const colorElemento =
+      tarjeta.querySelector(".color-producto");
+
+    if (colorElemento && colorElemento.value) {
+      actualizarStockProducto(colorElemento);
+    }
+
+  });
+}  
+  
 }
 function aumentarCantidadProducto(event) {
   const selector = event.currentTarget.closest(".cantidad-selector");
@@ -1760,11 +1793,26 @@ if (existente) {
 }
   guardarCarrito();
   actualizarCarrito();
+  refrescarStocksVisibles();
   if (cantidadElemento) {
   cantidadElemento.textContent = "1";
 }
 }
 
+function refrescarStocksVisibles() {
+
+  document.querySelectorAll(".producto").forEach(tarjeta => {
+
+    const colorElemento =
+      tarjeta.querySelector(".color-producto");
+
+    if (colorElemento && colorElemento.value) {
+      actualizarStockProducto(colorElemento);
+    }
+
+  });
+}
+  
 function aumentarProducto(indice) {
 
   if (!carrito[indice]) return;
@@ -1790,6 +1838,7 @@ function aumentarProducto(indice) {
 
   guardarCarrito();
   actualizarCarrito();
+  refrescarStocksVisibles();
 }
 
 function disminuirProducto(indice) {
@@ -1803,6 +1852,7 @@ function disminuirProducto(indice) {
 
   guardarCarrito();
   actualizarCarrito();
+  refrescarStocksVisibles();
 }
 
 function eliminarProducto(indice) {
@@ -1810,6 +1860,7 @@ function eliminarProducto(indice) {
 
   guardarCarrito();
   actualizarCarrito();
+  refrescarStocksVisibles();
 }
 
 function actualizarCarrito() {
